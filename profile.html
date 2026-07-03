@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile — Pagadala Mohith</title>
+  <meta name="description" content="Profile page showcase for Pagadala Mohith.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="wipe-transitions.css" />
+
+  <!-- GSAP & ScrollTrigger Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js"></script>
+
+  <style>
+    /* Reset and Core Tokens */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-black: #000000;
+      --text-light: #ffffff;
+      --text-dim: rgba(255, 255, 255, 0.45);
+      --accent-violet: #7300ff;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --ease: cubic-bezier(.19, 1, .22, 1);
+      --transition-bg: #f4f0e8; /* White transition slides */
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--bg-black);
+      color: var(--text-light);
+      font-family: var(--font-display);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      overflow-y: auto;
+      cursor: none;
+    }
+
+    a,
+    button {
+      cursor: none;
+    }
+
+    /* Hero Section Staircase Bouncing Balls Elements */
+    .hero-bouncing-ball {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0;
+      will-change: transform, opacity;
+      border: 3.5px solid #000000;
+    }
+
+    .hero-bouncing-ball::before {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 8px;
+      height: 8px;
+      background: #ffffff;
+      border-radius: 50%;
+    }
+
+    .ball-yellow {
+      background: #ffff00;
+    }
+
+    .ball-orange {
+      background: #ff8800;
+    }
+
+    /* Hero Stage Layout */
+    .stage {
+      width: 100vw;
+      min-height: 88vh;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: flex-start;
+      padding: 4vh 4vw 0 6vw;
+      position: relative;
+      gap: 3vw;
+    }
+
+    @media (max-width: 992px) {
+      .stage {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        padding: 24px;
+        min-height: 100vh;
+      }
+    }
+
+    /* Hero Content Column */
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      z-index: 10;
+      max-width: 680px;
+      padding-top: 19vh;
+    }
+
+    /* Interactive Skewed Badges (Profile & What I Bring) */
+    .badge-skew {
+      background: #ffffff;
+      padding: 8px 28px;
+      transform: skewX(-12deg);
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
+      border-radius: 2px;
+      display: inline-block;
+      margin-bottom: 4px;
+      position: relative;
+      overflow: hidden;
+      cursor: none;
+      transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), background-color 0.4s var(--ease);
+      will-change: transform;
+    }
+
+    /* Target Badge Yellow Highlight State for Hero Profile */
+    .badge-skew.yellow-hero-badge {
+      background-color: #ffff00 !important;
+      box-shadow: none !important;
+    }
+
+    .badge-skew.yellow-hero-badge span {
+      color: #000000 !important;
+    }
+
+    .badge-skew::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(115, 0, 255, 0.4), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .badge-skew:hover::before {
+      left: 100%;
+    }
+
+    .badge-skew:hover {
+      box-shadow: 0 12px 35px rgba(115, 0, 255, 0.4);
+      background-color: #ffffff;
+    }
+
+    .badge-skew span {
+      display: inline-block;
+      transform: skewX(12deg);
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      color: #000000;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+
+    .section-subheading {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: rgba(255, 255, 255, 0.6);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* Spotlight Interactive Text (Pure White Default with Violet Cursor Hover) */
+    .spotlight-text {
+      color: #ffffff;
+      transition: color 0.4s var(--ease);
+      display: inline-block;
+      cursor: none;
+    }
+
+    .spotlight-text.spotlight-active {
+      color: transparent;
+      background: radial-gradient(circle 220px at var(--tx, 50%) var(--ty, 50%),
+          var(--accent-violet) 0%,
+          #ffffff 60%,
+          #ffffff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .main-greeting {
+      font-size: clamp(1.8rem, 2.8vw, 2.4rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .desc-paragraph {
+      font-size: clamp(0.88rem, 1.05vw, 0.98rem);
+      line-height: 1.55;
+      font-weight: 500;
+    }
+
+    /* Portrait Display Container */
+    .portrait-container {
+      width: 100%;
+      height: 88vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      position: relative;
+      padding-top: 0;
+    }
+
+    .portrait-img {
+      max-width: 100%;
+      max-height: 86vh;
+      object-fit: contain;
+      border: none;
+      box-shadow: none;
+      background: transparent;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       WHAT I BRING — CLEAN UNCLIPPED SCROLL-DRIVEN PARALLAX
+       ═══════════════════════════════════════════════════════ */
+    .bring-section {
+      width: 100vw;
+      height: 90vh;
+      padding: 5vh 0 6vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 6vh;
+      position: relative;
+      overflow: visible;
+      border-top: none;
+    }
+
+    .bring-header {
+      padding-left: 6vw;
+      z-index: 10;
+    }
+
+    .marquee-row {
+      width: 100%;
+      overflow: visible;
+      white-space: nowrap;
+      margin-top: 7vh;
+    }
+
+    .marquee-track {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      will-change: transform;
+    }
+
+    .marquee-text {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .marquee-text.first-item {
+      padding-left: 100vw;
+    }
+
+    /* Target Phrase Wrapper & Highlights */
+    .highlight-wrapper {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 1.5vw;
+      position: relative;
+    }
+
+    .target-phrase {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      transition: all 0.4s var(--ease);
+      display: inline-block;
+      padding: 0 14px;
+      position: relative;
+    }
+
+    /* White Skewed Badge Highlight State */
+    .target-phrase.badge-active {
+      background: #ffffff;
+      color: #000000;
+      transform: skewX(-12deg);
+      box-shadow: 0 10px 35px rgba(255, 255, 255, 0.4);
+      border-radius: 4px;
+    }
+
+    .target-phrase.badge-active span {
+      display: inline-block;
+      transform: skewX(12deg);
+    }
+
+    /* Skewed Light Vibrant Orange Badge Highlight State for Shape 1 Target (with White Text) */
+    .target-phrase.orange-active {
+      background: #ff8800;
+      color: #ffffff;
+      transform: skewX(-12deg);
+      box-shadow: 0 10px 35px rgba(255, 136, 0, 0.6);
+      border-radius: 4px;
+    }
+
+    .target-phrase.orange-active span {
+      display: inline-block;
+      transform: skewX(12deg);
+    }
+
+    /* Skewed Bright Yellow Badge Highlight State with Stencil Cut Effect for Shape 4 Target */
+    .target-phrase.yellow-active {
+      background: #ffff00;
+      color: #000000;
+      transform: skewX(-12deg);
+      box-shadow: 0 10px 35px rgba(255, 255, 0, 0.8);
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .target-phrase.yellow-active::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -6%;
+      width: 112%;
+      height: 4px;
+      background: #000000;
+      transform: translateY(-50%) rotate(-3deg);
+      pointer-events: none;
+      box-shadow: 0 0 4px rgba(0,0,0,0.5);
+    }
+
+    .target-phrase.yellow-active span {
+      display: inline-block;
+      transform: skewX(12deg);
+    }
+
+    /* Electric Violet Color Shift State */
+    .target-phrase.violet-active {
+      color: #7300ff;
+      text-shadow: 0 0 30px rgba(115, 0, 255, 0.9);
+    }
+
+    /* Animatable Gem Objects */
+    .creative-shape {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1.5vw;
+      vertical-align: middle;
+      position: relative;
+      z-index: 20;
+      opacity: 1;
+      transform: scale(1);
+      will-change: transform, opacity;
+    }
+
+    .shape-svg {
+      width: clamp(3.2rem, 6.5vw, 5.5rem);
+      height: clamp(3.2rem, 6.5vw, 5.5rem);
+      filter: drop-shadow(0 0 22px rgba(255, 255, 255, 0.9));
+      transition: filter 0.4s ease;
+    }
+
+    .creative-shape:hover .shape-svg {
+      filter: drop-shadow(0 0 40px rgba(255, 255, 255, 1));
+    }
+
+    /* Strengths & Interests Split Section */
+    .strengths-interests-section {
+      width: 100vw;
+      min-height: 80vh;
+      padding: 14vh 6vw 10vh;
+      background-color: #000000;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5vh;
+    }
+
+    .split-container {
+      display: flex;
+      width: 100%;
+      gap: 32px;
+      perspective: 1000px;
+      align-items: stretch;
+      min-height: 520px;
+    }
+
+    @media (max-width: 768px) {
+      .split-container {
+        flex-direction: column;
+        min-height: auto;
+      }
+    }
+
+    .split-panel {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      border-radius: 8px;
+      padding: 55px 40px 40px;
+      position: relative;
+      transition: flex 0.6s cubic-bezier(0.19, 1, 0.22, 1), 
+                  border-color 0.4s ease, 
+                  background-color 0.4s ease,
+                  box-shadow 0.4s ease,
+                  opacity 0.4s ease,
+                  filter 0.4s ease,
+                  color 0.4s ease;
+      will-change: transform, flex;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      overflow: hidden;
+    }
+
+    /* Position panel children above radial background fill */
+    .split-panel > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Radial circle hover fill */
+    .split-panel::before {
+      content: "";
+      position: absolute;
+      left: var(--x, 50%);
+      top: var(--y, 50%);
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 1.1s var(--ease), height 1.1s var(--ease);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .split-panel:hover::before {
+      width: 300%;
+      height: 300%;
+    }
+
+    /* Swapped color fills: Strengths is Orange, Interests is Violet */
+    .split-panel.strengths-panel::before {
+      background: #ff8800; /* accent orange */
+    }
+
+    .split-panel.interests-panel::before {
+      background: #7300ff; /* accent violet */
+    }
+
+    .split-panel.strengths-panel.hovered {
+      flex: 1.7;
+      color: #000000 !important;
+      border-color: rgba(115, 0, 255, 0.5);
+      box-shadow: 0 10px 40px rgba(115, 0, 255, 0.08);
+    }
+
+    .split-panel.strengths-panel.hovered .section-subheading {
+      color: rgba(0, 0, 0, 0.65) !important;
+    }
+
+    /* Swap badge design on hover to stand out */
+    .split-panel.strengths-panel.hovered .badge-skew {
+      background: #000000 !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .split-panel.strengths-panel.hovered .badge-skew span {
+      color: #ffffff !important;
+    }
+
+    /* Tags inside Strengths Panel when Strengths Panel is hovered (black text and solid black border against orange) */
+    .strengths-panel.hovered .magnetic-tag {
+      background: rgba(0, 0, 0, 0.04) !important;
+      border: 1.5px solid #000000 !important;
+      color: #000000 !important;
+    }
+
+    /* Interests panel (Violet fill) - text turns white */
+    .split-panel.interests-panel.hovered {
+      flex: 1.7;
+      color: #ffffff !important;
+      border-color: rgba(255, 136, 0, 0.5);
+      box-shadow: 0 10px 40px rgba(255, 136, 0, 0.08);
+    }
+
+    .split-panel.interests-panel.hovered .section-subheading {
+      color: rgba(255, 255, 255, 0.65) !important;
+    }
+
+    .split-panel.interests-panel.hovered .badge-skew {
+      background: #ffffff !important;
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15) !important;
+    }
+
+    .split-panel.interests-panel.hovered .badge-skew span {
+      color: #000000 !important;
+    }
+
+    /* Tags inside Interests Panel when Interests Panel is hovered (white text and solid black border against violet) */
+    .interests-panel.hovered .magnetic-tag {
+      background: rgba(255, 255, 255, 0.04) !important;
+      border: 1.5px solid #000000 !important;
+      color: #ffffff !important;
+    }
+
+    .split-container:has(.split-panel.hovered) .split-panel:not(.hovered) {
+      flex: 0.75;
+      opacity: 0.4;
+      filter: blur(0.5px);
+    }
+
+    .panel-header {
+      margin-bottom: 10px;
+    }
+
+    .tags-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-content: flex-start;
+    }
+
+    .magnetic-tag {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 10px 22px;
+      border-radius: 4px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.95);
+      cursor: none;
+      transform: skewX(-8deg);
+      transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      will-change: transform;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .magnetic-tag span {
+      display: inline-block;
+      transform: skewX(8deg);
+      position: relative;
+      z-index: 2;
+    }
+
+    .magnetic-tag::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: transparent;
+      display: inline-block;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      transform: skewX(8deg);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Tag hover background fill */
+    .magnetic-tag::after {
+      content: "";
+      position: absolute;
+      left: var(--x, 50%);
+      top: var(--y, 50%);
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.5s var(--ease), height 0.5s var(--ease);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .magnetic-tag:hover::after {
+      width: 300%;
+      height: 300%;
+    }
+
+    /* Strengths Panel tag hover: fills with Violet, text flips to White */
+    .strengths-panel .magnetic-tag::after {
+      background: #7300ff;
+    }
+
+    .strengths-panel .magnetic-tag:hover {
+      color: #ffffff !important;
+      border-color: transparent !important;
+      box-shadow: 0 4px 15px rgba(115, 0, 255, 0.25);
+    }
+
+    .strengths-panel .magnetic-tag:hover::before {
+      background: #ffffff !important;
+      box-shadow: 0 0 10px #ffffff !important;
+    }
+
+    /* Interests Panel tag hover: fills with Orange, text flips to Black */
+    .interests-panel .magnetic-tag::after {
+      background: #ff8800;
+    }
+
+    .interests-panel .magnetic-tag:hover {
+      color: #000000 !important;
+      border-color: transparent !important;
+      box-shadow: 0 4px 15px rgba(255, 136, 0, 0.25);
+    }
+
+    .interests-panel .magnetic-tag:hover::before {
+      background: #000000 !important;
+      box-shadow: 0 0 10px #000000 !important;
+    }
+
+    /* Custom Cursor Elements */
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: difference;
+      transition: transform 0.15s ease-out;
+    }
+
+    .cursor-ring {
+      width: 44px;
+      height: 44px;
+      border: 1.5px solid rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9998;
+      mix-blend-mode: difference;
+      transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Page Transition Overlay -->
+  <div class="transition" aria-hidden="true">
+    <i style="--d:0"></i><i style="--d:1"></i><i style="--d:2"></i><i style="--d:3"></i>
+  </div>
+
+  <!-- Floating Pill Nav -->
+  <div class="pill-nav">
+    <span class="pill-indicator" aria-hidden="true"></span>
+    <a href="home.html" data-nav="top">Home</a>
+    <a href="projects.html" data-nav="projects">Projects</a>
+    <a href="capabilities.html" data-nav="capabilities">Capabilities</a>
+    <a href="profile.html" data-nav="profile" class="is-active">Profile</a>
+    <a href="#contact" data-nav="contact">Contact</a>
+  </div>
+
+  <!-- Hero Section Bouncing Balls Elements -->
+  <div id="yellowBouncingBall" class="hero-bouncing-ball ball-yellow"></div>
+  <div id="orangeBouncingBall" class="hero-bouncing-ball ball-orange"></div>
+
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- SVG Sun Gradient Defs (Preserved Orange & Yellow Mix for Flower) -->
+  <svg width="0" height="0" style="position:absolute;">
+    <defs>
+      <linearGradient id="sunGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ffdd00" />
+        <stop offset="60%" stop-color="#ff7700" />
+        <stop offset="100%" stop-color="#ff3300" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- Hero Stage Section -->
+  <main class="stage">
+
+    <!-- Left Hero Typography -->
+    <section class="hero-content">
+      <div>
+        <div class="badge-skew magnetic-badge" id="heroProfileBadge">
+          <span>Profile</span>
+        </div>
+        <span class="section-subheading">Who Am I?</span>
+      </div>
+
+      <h1 class="main-greeting spotlight-text">Hi, I'm <span id="myNameText" style="transition: color 0.5s ease;">Mohith Pagadala.</span></h1>
+
+      <p class="desc-paragraph spotlight-text">
+        I'm a Data Science undergraduate who enjoys exploring the intersection of Artificial Intelligence, Data Science,
+        Quantitative Finance, and Product Development.
+      </p>
+
+      <p class="desc-paragraph spotlight-text">
+        Rather than focusing on a single domain, I enjoy connecting ideas across disciplines to build practical systems
+        that solve meaningful problems. My interests range from machine learning and intelligent automation to market
+        analysis, quantitative research, and scalable software products.
+      </p>
+
+      <p class="desc-paragraph spotlight-text">
+        I am driven by curiosity, experimentation, and continuous learning. Whether it's participating in hackathons,
+        building new projects, researching emerging technologies, or exploring innovative business ideas, I constantly
+        look for opportunities to create, improve, and learn.
+      </p>
+
+      <p class="desc-paragraph spotlight-text">
+        My long-term goal is to build intelligent systems that combine data, automation, and decision-making to create
+        real-world impact.
+      </p>
+    </section>
+
+    <!-- Right Portrait Display -->
+    <section class="portrait-container">
+      <img src="my_image/file_00000000c0dc7207b948fe160e45c97d.png" alt="Pagadala Mohith Portrait" class="portrait-img">
+    </section>
+
+  </main>
+
+  <!-- What I Bring — Clean Unclipped Parallax Section -->
+  <section class="bring-section" id="bringSection">
+
+    <div class="bring-header">
+      <div class="badge-skew magnetic-badge">
+        <span>What I Bring</span>
+      </div>
+    </div>
+
+    <div class="marquee-row">
+      <div class="marquee-track" id="fullScrollTrack">
+        <span class="marquee-text spotlight-text first-item">I don't just learn technologies — I focus on</span>
+        
+        <!-- Target Group 1: 6-Petal Flower 🌸 (Preserved Orange-Yellow Mix) + 'understanding problems' -->
+        <span class="highlight-wrapper" id="group1">
+          <span class="creative-shape" id="shape1">
+            <svg class="shape-svg" viewBox="0 0 24 24" fill="url(#sunGrad1)" style="filter: drop-shadow(0 0 25px rgba(255, 119, 0, 0.9));">
+              <g transform="translate(12,12)">
+                <path d="M0,-11 C2.5,-6.5 2.5,-3 0,0 C-2.5,-3 -2.5,-6.5 0,-11 Z" />
+                <path d="M0,-11 C2.5,-6.5 2.5,-3 0,0 C-2.5,-3 -2.5,-6.5 0,-11 Z" transform="rotate(60)" />
+                <path d="M0,-11 C2.5,-6.5 2.5,-3 0,0 C-2.5,-3 -2.5,-6.5 0,-11 Z" transform="rotate(120)" />
+                <path d="M0,-11 C2.5,-6.5 2.5,-3 0,0 C-2.5,-3 -2.5,-6.5 0,-11 Z" transform="rotate(180)" />
+                <path d="M0,-11 C2.5,-6.5 2.5,-3 0,0 C-2.5,-3 -2.5,-6.5 0,-11 Z" transform="rotate(240)" />
+                <path d="M0,-11 C2.5,-6.5 2.5,-3 0,0 C-2.5,-3 -2.5,-6.5 0,-11 Z" transform="rotate(300)" />
+                <circle cx="0" cy="0" r="2.8" fill="#ffffff" />
+              </g>
+            </svg>
+          </span>
+          <span class="target-phrase" id="phrase1"><span>understanding problems</span></span>
+        </span>
+
+        <span class="marquee-text spotlight-text">, designing solutions, and building</span>
+
+        <!-- Target Group 4: Bright Yellow Right Arrow ➔ + 'create value' -->
+        <span class="highlight-wrapper" id="group4">
+          <span class="creative-shape" id="shape4" style="margin-left: 1.5vw;">
+            <svg class="shape-svg" viewBox="0 0 24 24" fill="none" style="filter: drop-shadow(0 0 25px rgba(255, 255, 0, 0.9));">
+              <path d="M4 12H20M13 5L20 12L13 19" stroke="#ffff00" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="marquee-text spotlight-text" style="margin-right: 1.5vw;">systems that</span>
+          <span class="target-phrase" id="phrase4"><span>create value</span></span>
+        </span>
+
+        <span class="marquee-text spotlight-text"> — My approach</span>
+
+        <!-- Target Group 2: Starburst + 'combines technical knowledge' -->
+        <span class="highlight-wrapper" id="group2">
+          <span class="creative-shape" id="shape2">
+            <svg class="shape-svg" viewBox="0 0 24 24" style="filter: drop-shadow(0 0 25px rgba(115, 0, 255, 1));">
+              <defs>
+                <linearGradient id="gemGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#ffffff" />
+                  <stop offset="40%" stop-color="#c084fc" />
+                  <stop offset="100%" stop-color="#7300ff" />
+                </linearGradient>
+              </defs>
+              <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="url(#gemGrad2)" />
+            </svg>
+          </span>
+          <span class="target-phrase" id="phrase2">combines technical knowledge</span>
+        </span>
+
+        <span class="marquee-text spotlight-text">,</span>
+
+        <!-- Target Group 3: Hexagon + 'analytical thinking' -->
+        <span class="highlight-wrapper" id="group3">
+          <span class="creative-shape" id="shape3">
+            <svg class="shape-svg" viewBox="0 0 24 24">
+              <path d="M12 2L21.5 7.5V18.5L12 24L2.5 18.5V7.5L12 2Z" fill="#ffffff" stroke="#ffffff" stroke-width="0.5" />
+            </svg>
+          </span>
+          <span class="target-phrase" id="phrase3"><span>analytical thinking</span></span>
+        </span>
+
+        <span class="marquee-text spotlight-text">, and product-oriented execution.</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Strengths & Interests Section -->
+  <section class="strengths-interests-section">
+    
+    <div class="split-container">
+      <!-- Strengths Column -->
+      <div class="split-panel strengths-panel">
+        <div class="panel-header">
+          <div class="badge-skew">
+            <span>Strengths</span>
+          </div>
+          <span class="section-subheading" style="margin-top: 10px;">Professional Skills</span>
+        </div>
+        <div class="tags-grid">
+          <div class="magnetic-tag"><span>Strong analytical mindset</span></div>
+          <div class="magnetic-tag"><span>Curiosity-driven learner</span></div>
+          <div class="magnetic-tag"><span>Builder mentality</span></div>
+          <div class="magnetic-tag"><span>Problem-solving orientation</span></div>
+          <div class="magnetic-tag"><span>Adaptability and growth mindset</span></div>
+          <div class="magnetic-tag"><span>Interest in innovation &amp; tech</span></div>
+          <div class="magnetic-tag"><span>Ability to learn independently</span></div>
+          <div class="magnetic-tag"><span>Passion for creating solutions</span></div>
+        </div>
+      </div>
+
+      <!-- Interests Column -->
+      <div class="split-panel interests-panel">
+        <div class="panel-header">
+          <div class="badge-skew">
+            <span>Interests</span>
+          </div>
+          <span class="section-subheading" style="margin-top: 10px;">Areas of Focus</span>
+        </div>
+        <div class="tags-grid">
+          <div class="magnetic-tag"><span>Artificial Intelligence</span></div>
+          <div class="magnetic-tag"><span>Machine Learning</span></div>
+          <div class="magnetic-tag"><span>Data Science</span></div>
+          <div class="magnetic-tag"><span>Predictive Analytics</span></div>
+          <div class="magnetic-tag"><span>Quantitative Finance</span></div>
+          <div class="magnetic-tag"><span>Algorithmic Trading</span></div>
+          <div class="magnetic-tag"><span>Intelligent Automation</span></div>
+          <div class="magnetic-tag"><span>Product Development</span></div>
+          <div class="magnetic-tag"><span>Emerging Technologies</span></div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ─── Footer ─── -->
+  <footer id="contact">
+    <video autoplay muted loop playsinline>
+      <source src="https://cdn.sanity.io/files/nuxb3jim/production-july-2025/ab4a05d3b47c051abb3ace15ab7da4eb7edb2886.mp4" type="video/mp4" />
+    </video>
+    <div class="footer-inner reveal">
+      <div>
+        <span class="eyebrow">Contact</span>
+        <h2>Let's connect</h2>
+      </div>
+      <div>
+        <div class="footer-links">
+          <a href="mailto:pagadalamohith230@gmail.com" data-cursor="Mail">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            pagadalamohith230@gmail.com
+          </a>
+          <a href="tel:+919347902490" data-cursor="Call">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            +91 9347902490
+          </a>
+          <a href="https://github.com/P-mohith230" target="_blank" rel="noopener noreferrer" data-cursor="Open">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/mohithpagadala/" target="_blank" rel="noopener noreferrer" data-cursor="Open">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            LinkedIn
+          </a>
+          <a href="#" target="_blank" rel="noopener noreferrer" data-cursor="Open">
+            <span style="font-size: 13px; margin-right: 6px; display: inline-block; vertical-align: middle;">🤗</span>
+            Hugging Face
+          </a>
+        </div>
+        <a class="magnetic" href="mailto:pagadalamohith230@gmail.com" data-cursor="Mail">Let's talk</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Pagadala Mohith</span>
+      <div style="font-size: 11px; opacity: 0.4; letter-spacing: 0.02em;">Design references: Metalab, Mobbin (Contra, Spline)</div>
+      <div class="footer-bottom-links">
+        <a href="https://github.com/P-mohith230" target="_blank" rel="noopener noreferrer" data-cursor="Open">GitHub</a>
+        <a href="https://www.linkedin.com/in/mohithpagadala/" target="_blank" rel="noopener noreferrer" data-cursor="Open">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ═══════════════════════════════════════════════════════
+       CUSTOM CURSOR TRACKING
+       ═══════════════════════════════════════════════════════ */
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorRing = document.getElementById('cursorRing');
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+
+    const dotToX = gsap.quickTo(cursorDot, "x", { duration: 0.1, ease: "power2.out" });
+    const dotToY = gsap.quickTo(cursorDot, "y", { duration: 0.1, ease: "power2.out" });
+    const ringToX = gsap.quickTo(cursorRing, "x", { duration: 0.25, ease: "power2.out" });
+    const ringToY = gsap.quickTo(cursorRing, "y", { duration: 0.25, ease: "power2.out" });
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dotToX(mouseX - 4);
+      dotToY(mouseY - 4);
+      ringToX(mouseX - 22);
+      ringToY(mouseY - 22);
+    });
+
+    /* ═══════════════════════════════════════════════════════
+       HERO STAIRCASE BOUNCING BALLS PHYSICS ANIMATION
+       ═══════════════════════════════════════════════════════ */
+    /* ═══════════════════════════════════════════════════════
+       MATHEMATICAL PATH-FOLLOWING JELLY BOUNCE SYSTEM
+       ═══════════════════════════════════════════════════════ */
+    function animateBallAlongPath(ball, path, duration, onCompleteCallback) {
+      const length = path.getTotalLength();
+      gsap.set(path, { opacity: 0.85, strokeDasharray: `120, ${length}`, strokeDashoffset: 137 });
+      gsap.set(ball, { opacity: 1, scale: 1, scaleX: 1, scaleY: 1 });
+
+      const animObj = { progress: 0 };
+      
+      const tl = gsap.timeline({
+        onComplete: () => {
+          gsap.to(path, { opacity: 0, duration: 0.3 });
+          if (onCompleteCallback) onCompleteCallback();
+        }
+      });
+
+      tl.to(animObj, {
+        progress: 1,
+        duration: duration,
+        ease: "sine.inOut",
+        onUpdate: () => {
+          const p = animObj.progress;
+          const point = path.getPointAtLength(p * length);
+          gsap.set(ball, { x: point.x - 17, y: point.y - 17 });
+          path.style.strokeDashoffset = 137 - (p * length);
+        }
+      }, 0);
+
+      // Squash and stretch keyframes synced with progress duration
+      tl.to(ball, {
+        scaleX: 0.75,
+        scaleY: 1.3,
+        duration: duration * 0.3,
+        ease: "power1.inOut"
+      }, 0)
+      .to(ball, {
+        scaleX: 1.0,
+        scaleY: 1.0,
+        duration: duration * 0.3,
+        ease: "sine.inOut"
+      }, duration * 0.3)
+      .to(ball, {
+        scaleX: 0.7,
+        scaleY: 1.35,
+        duration: duration * 0.25,
+        ease: "power1.in"
+      }, duration * 0.6)
+      .to(ball, {
+        scaleX: 1.45,
+        scaleY: 0.55,
+        duration: duration * 0.15,
+        ease: "power2.out"
+      }, duration * 0.85);
+    }
+
+    function initHeroBallsAnimation() {
+      const yellowBall = document.getElementById('yellowBouncingBall');
+      const orangeBall = document.getElementById('orangeBouncingBall');
+      const heroProfileBadge = document.getElementById('heroProfileBadge');
+      const myNameText = document.getElementById('myNameText');
+
+      if (!yellowBall || !orangeBall || !heroProfileBadge || !myNameText) return;
+
+      const badgeRect = heroProfileBadge.getBoundingClientRect();
+      const nameRect = myNameText.getBoundingClientRect();
+
+      const scrollY = window.scrollY || window.pageYOffset;
+      const scrollX = window.scrollX || window.pageXOffset;
+
+      const badgeX = badgeRect.left + scrollX;
+      const badgeY = badgeRect.top + scrollY;
+      const badgeWidth = badgeRect.width;
+      const badgeHeight = badgeRect.height;
+
+      const nameX = nameRect.left + scrollX;
+      const nameY = nameRect.top + scrollY;
+      const nameWidth = nameRect.width;
+      const nameHeight = nameRect.height;
+
+      // Create SVG overlay for trail paths dynamically
+      let svgOverlay = document.getElementById('ballTrailOverlay');
+      if (!svgOverlay) {
+        svgOverlay = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svgOverlay.id = 'ballTrailOverlay';
+        svgOverlay.style.position = 'absolute';
+        svgOverlay.style.top = '0';
+        svgOverlay.style.left = '0';
+        svgOverlay.style.width = '100%';
+        svgOverlay.style.height = '100%';
+        svgOverlay.style.pointerEvents = 'none';
+        svgOverlay.style.zIndex = '999';
+        svgOverlay.style.overflow = 'visible';
+        document.body.appendChild(svgOverlay);
+      }
+
+      function getOrCreatePath(id) {
+        let path = document.getElementById(id);
+        if (!path) {
+          path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          path.id = id;
+          path.style.fill = 'none';
+          path.style.stroke = '#ffffff';
+          path.style.strokeWidth = '3.5px';
+          path.style.strokeLinecap = 'round';
+          path.style.opacity = '0';
+          svgOverlay.appendChild(path);
+        }
+        return path;
+      }
+
+      // Yellow Ball Path (Single direct parabolic leap)
+      const yStartX = 15;
+      const yStartX_relative = yStartX;
+      const yStartY = 120 + scrollY;
+      const yEndX = badgeX + badgeWidth / 2;
+      const yEndY = badgeY + badgeHeight / 2;
+      const yH = 140;
+
+      const yellowPath = getOrCreatePath('yellowTrailPath');
+      const yCx = (yStartX_relative + yEndX) / 2;
+      const yCy = Math.min(yStartY, yEndY) - yH;
+      yellowPath.setAttribute('d', `M ${yStartX_relative} ${yStartY} Q ${yCx} ${yCy} ${yEndX} ${yEndY}`);
+
+      // Orange Ball Path 1 (First leap to Profile Badge)
+      const o1StartX = 45;
+      const o1StartY = 120 + scrollY;
+      const o1EndX = badgeX + badgeWidth / 2;
+      const o1EndY = badgeY + badgeHeight / 2;
+      const o1H = 140;
+
+      const orangePath1 = getOrCreatePath('orangeTrailPath1');
+      const o1Cx = (o1StartX + o1EndX) / 2;
+      const o1Cy = Math.min(o1StartY, o1EndY) - o1H;
+      orangePath1.setAttribute('d', `M ${o1StartX} ${o1StartY} Q ${o1Cx} ${o1Cy} ${o1EndX} ${o1EndY}`);
+
+      // Orange Ball Path 2 (Second leap from Profile Badge to Name)
+      const o2StartX = badgeX + badgeWidth / 2;
+      const o2StartY = badgeY + badgeHeight / 2;
+      const o2EndX = nameX + nameWidth / 2;
+      const o2EndY = nameY + nameHeight / 2;
+      const o2H = 80;
+
+      const orangePath2 = getOrCreatePath('orangeTrailPath2');
+      const o2Cx = (o2StartX + o2EndX) / 2;
+      const o2Cy = Math.min(o2StartY, o2EndY) - o2H;
+      orangePath2.setAttribute('d', `M ${o2StartX} ${o2StartY} Q ${o2Cx} ${o2Cy} ${o2EndX} ${o2EndY}`);
+
+      // Run Yellow Ball Animation
+      animateBallAlongPath(yellowBall, yellowPath, 0.8, () => {
+        heroProfileBadge.classList.add('yellow-hero-badge');
+        gsap.to(yellowBall, { scale: 0, opacity: 0, duration: 0.25 });
+      });
+
+      // Run Orange Ball Animation (Delayed by 1 second)
+      gsap.delayedCall(1.0, () => {
+        animateBallAlongPath(orangeBall, orangePath1, 0.8, () => {
+          // Impact on Profile badge (squashes and bounces off immediately)
+          animateBallAlongPath(orangeBall, orangePath2, 0.7, () => {
+            myNameText.style.color = "#ff8800";
+            myNameText.style.textShadow = "none";
+            gsap.to(orangeBall, { scale: 0, opacity: 0, duration: 0.25 });
+          });
+        });
+      });
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       MAGNETIC BADGES 3D HOVER ANIMATION (GSAP)
+       ═══════════════════════════════════════════════════════ */
+    document.querySelectorAll('.magnetic-badge').forEach(badge => {
+      const badgeToX = gsap.quickTo(badge, "x", { duration: 0.3, ease: "power2.out" });
+      const badgeToY = gsap.quickTo(badge, "y", { duration: 0.3, ease: "power2.out" });
+
+      badge.addEventListener('mousemove', e => {
+        const rect = badge.getBoundingClientRect();
+        const relX = e.clientX - (rect.left + rect.width / 2);
+        const relY = e.clientY - (rect.top + rect.height / 2);
+        badgeToX(relX * 0.3);
+        badgeToY(relY * 0.3);
+      });
+
+      badge.addEventListener('mouseleave', () => {
+        badgeToX(0);
+        badgeToY(0);
+        gsap.to(cursorRing, { scale: 1.0, duration: 0.3 });
+      });
+
+      badge.addEventListener('mouseenter', () => {
+        gsap.to(cursorRing, { scale: 1.5, duration: 0.3 });
+      });
+    });
+
+    /* ═══════════════════════════════════════════════════════
+       CURSOR-ORIGIN RADIAL TEXT SPOTLIGHT ANIMATION
+       ═══════════════════════════════════════════════════════ */
+    function initSpotlight() {
+      const spotlightElements = document.querySelectorAll('.spotlight-text, .target-phrase');
+
+      spotlightElements.forEach(el => {
+        el.addEventListener('pointermove', e => {
+          const rect = el.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          el.style.setProperty('--tx', `${x}px`);
+          el.style.setProperty('--ty', `${y}px`);
+
+          if (!el.classList.contains('spotlight-active')) {
+            el.classList.add('spotlight-active');
+          }
+        });
+
+        el.addEventListener('pointerleave', () => {
+          el.classList.remove('spotlight-active');
+        });
+
+        el.addEventListener('mouseenter', () => gsap.to(cursorRing, { scale: 1.4, duration: 0.3 }));
+        el.addEventListener('mouseleave', () => gsap.to(cursorRing, { scale: 1.0, duration: 0.3 }));
+      });
+    }
+    initSpotlight();
+
+    /* ═══════════════════════════════════════════════════════
+       SCROLL-DRIVEN PARALLAX & ARROW ATTACK ANIMATION
+       ═══════════════════════════════════════════════════════ */
+    const track = document.getElementById('fullScrollTrack');
+
+    function setupFullScroll() {
+      const totalWidth = track.scrollWidth - window.innerWidth + 300;
+
+      // Ambient 3D spins
+      gsap.to('#shape1 .shape-svg', { rotation: 360, repeat: -1, duration: 8, ease: 'none' });
+      gsap.to('#shape2 .shape-svg', { rotation: 360, repeat: -1, duration: 6, ease: 'none' });
+      gsap.to('#shape3 .shape-svg', { rotationZ: -360, repeat: -1, duration: 5, ease: 'none' });
+
+      // Main horizontal track scroll animation
+      const mainTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#bringSection',
+          start: 'top top',
+          end: '+=4200',
+          pin: true,
+          scrub: 1.5,
+          onUpdate: () => {
+            checkParabolicGemArc('#group1', '#shape1', '#phrase1', 'orange', 0.82, 'up');
+            checkArrowAttack('#group4', '#shape4', '#phrase4', 0.84);
+            checkParabolicGemArc('#group2', '#shape2', '#phrase2', 'violet', 0.86, 'down');
+            checkParabolicGemArc('#group3', '#shape3', '#phrase3', 'badge', 0.88, 'up');
+          }
+        }
+      });
+
+      mainTl.fromTo(track, { x: 0 }, { x: -totalWidth, ease: 'none' }, 0);
+    }
+
+    const activeGroups = {};
+
+    /* Dedicated Straight Horizontal Arrow Attack Function for Shape 4 */
+    function checkArrowAttack(groupSel, shapeSel, phraseSel, threshold) {
+      const group = document.querySelector(groupSel);
+      const shape = document.querySelector(shapeSel);
+      const phrase = document.querySelector(phraseSel);
+      if (!group || !shape || !phrase) return;
+
+      const rect = group.getBoundingClientRect();
+      const triggerX = window.innerWidth * threshold;
+
+      if (rect.left <= triggerX && !activeGroups[groupSel]) {
+        activeGroups[groupSel] = true;
+
+        const shapeRect = shape.getBoundingClientRect();
+        const phraseRect = phrase.getBoundingClientRect();
+        const textCenterOffset = (phraseRect.left + phraseRect.width / 2) - (shapeRect.left + shapeRect.width / 2);
+
+        const attackTl = gsap.timeline();
+
+        // High-speed straight horizontal attack thrust straight into text center!
+        attackTl.fromTo(shape,
+          { opacity: 1, scale: 1, x: 0, y: 0 },
+          { x: textCenterOffset, y: 0, duration: 0.45, ease: 'power3.in' }
+        )
+        // Impact attack recoil slam & highlight trigger
+        .to(shape, {
+          scale: 1.35,
+          duration: 0.1,
+          yoyo: true,
+          repeat: 1,
+          onComplete: () => {
+            phrase.classList.add('yellow-active');
+            gsap.to(shape, { scale: 0, opacity: 0, duration: 0.25, ease: 'power2.in' });
+          }
+        });
+
+      } else if (rect.left > triggerX && activeGroups[groupSel]) {
+        activeGroups[groupSel] = false;
+        gsap.killTweensOf(shape);
+        gsap.set(shape, { opacity: 1, scale: 1, x: 0, y: 0 });
+        phrase.classList.remove('yellow-active');
+      }
+    }
+
+    /* Parabolic Semi-Circular Arc Jump Function for Shapes 1, 2 & 3 */
+    function checkParabolicGemArc(groupSel, shapeSel, phraseSel, type, threshold, arcDir = 'up') {
+      const group = document.querySelector(groupSel);
+      const shape = document.querySelector(shapeSel);
+      const phrase = document.querySelector(phraseSel);
+      if (!group || !shape || !phrase) return;
+
+      const rect = group.getBoundingClientRect();
+      const triggerX = window.innerWidth * threshold;
+
+      if (rect.left <= triggerX && !activeGroups[groupSel]) {
+        activeGroups[groupSel] = true;
+
+        const shapeRect = shape.getBoundingClientRect();
+        const phraseRect = phrase.getBoundingClientRect();
+        const textCenterOffset = (phraseRect.left + phraseRect.width / 2) - (shapeRect.left + shapeRect.width / 2);
+        
+        const duration = 0.75;
+        const targetY = arcDir === 'down' ? 140 : -140;
+
+        // 1. Continuous smooth horizontal forward glide across phrase center
+        gsap.fromTo(shape,
+          { opacity: 1, scale: 1, x: 0 },
+          { x: textCenterOffset, duration: duration, ease: 'sine.inOut' }
+        );
+
+        // 2. Buttery-smooth semi-circular parabolic vertical arc (sine curve)
+        gsap.fromTo(shape,
+          { y: 0 },
+          { 
+            y: targetY, 
+            duration: duration * 0.5, 
+            ease: 'sine.out',
+            yoyo: true,
+            repeat: 1,
+            onComplete: () => {
+              // 3. Landing impact triggers phrase highlight!
+              if (type === 'orange') {
+                phrase.classList.add('orange-active');
+              } else if (type === 'badge') {
+                phrase.classList.add('badge-active');
+              } else if (type === 'violet') {
+                phrase.classList.add('violet-active');
+              }
+
+              // 4. Seamless fade out upon landing!
+              gsap.to(shape, { scale: 0, opacity: 0, duration: 0.3, ease: 'power2.in' });
+            }
+          }
+        );
+
+      } else if (rect.left > triggerX && activeGroups[groupSel]) {
+        // Reset state cleanly when scrolled backward
+        activeGroups[groupSel] = false;
+        gsap.killTweensOf(shape);
+        gsap.set(shape, { opacity: 1, scale: 1, x: 0, y: 0 });
+        phrase.classList.remove('orange-active', 'yellow-active', 'badge-active', 'violet-active');
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       STRENGTHS & INTERESTS INTERACTIVE LOGIC
+       ═══════════════════════════════════════════════════════ */
+    function initStrengthsInterestsInteractive() {
+      // 3D Perspective Tilt & Morphing Accordion Panels
+      document.querySelectorAll('.split-panel').forEach(panel => {
+        panel.addEventListener('mouseenter', () => {
+          panel.classList.add('hovered');
+        });
+
+        panel.addEventListener('mouseleave', () => {
+          panel.classList.remove('hovered');
+          gsap.to(panel, {
+            rotationY: 0,
+            rotationX: 0,
+            duration: 0.6,
+            ease: "power2.out"
+          });
+        });
+
+        panel.addEventListener('mousemove', (e) => {
+          if (!panel.classList.contains('hovered')) return;
+          const rect = panel.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+
+          const normX = (x / rect.width) - 0.5;
+          const normY = (y / rect.height) - 0.5;
+
+          gsap.to(panel, {
+            rotationY: normX * 3.5, // much subtler rotation Y
+            rotationX: -normY * 3.5, // much subtler rotation X
+            duration: 0.25,
+            ease: "power1.out",
+            transformPerspective: 1000
+          });
+        });
+
+        panel.addEventListener('pointermove', e => {
+          const rect = panel.getBoundingClientRect();
+          panel.style.setProperty('--x', `${e.clientX - rect.left}px`);
+          panel.style.setProperty('--y', `${e.clientY - rect.top}px`);
+        });
+      });
+
+      // Magnetic Capsule Tags
+      document.querySelectorAll('.magnetic-tag').forEach(tag => {
+        const tagToX = gsap.quickTo(tag, "x", { duration: 0.3, ease: "power2.out" });
+        const tagToY = gsap.quickTo(tag, "y", { duration: 0.3, ease: "power2.out" });
+
+        tag.addEventListener('mousemove', e => {
+          const rect = tag.getBoundingClientRect();
+          const relX = e.clientX - (rect.left + rect.width / 2);
+          const relY = e.clientY - (rect.top + rect.height / 2);
+          tagToX(relX * 0.2); // reduced magnetic attraction multiplier
+          tagToY(relY * 0.2); // reduced magnetic attraction multiplier
+        });
+
+        tag.addEventListener('pointermove', e => {
+          const rect = tag.getBoundingClientRect();
+          tag.style.setProperty('--x', `${e.clientX - rect.left}px`);
+          tag.style.setProperty('--y', `${e.clientY - rect.top}px`);
+        });
+
+        tag.addEventListener('mouseleave', () => {
+          tagToX(0);
+          tagToY(0);
+          gsap.to(cursorRing, { scale: 1.0, duration: 0.3 });
+        });
+
+        tag.addEventListener('mouseenter', () => {
+          gsap.to(cursorRing, { scale: 1.4, duration: 0.3 });
+        });
+      });
+
+      // Staggered Entrance ScrollTrigger Animation
+      gsap.from('.strengths-panel .magnetic-tag', {
+        scrollTrigger: {
+          trigger: '.strengths-interests-section',
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        },
+        opacity: 0,
+        y: 30,
+        scale: 0.9,
+        stagger: 0.04,
+        duration: 0.7,
+        ease: "back.out(1.5)"
+      });
+
+      gsap.from('.interests-panel .magnetic-tag', {
+        scrollTrigger: {
+          trigger: '.strengths-interests-section',
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        },
+        opacity: 0,
+        y: 30,
+        scale: 0.9,
+        stagger: 0.04,
+        duration: 0.7,
+        ease: "back.out(1.5)"
+      });
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       SHARED TRANSITIONS & PILL NAV INITIALIZATION
+       ═══════════════════════════════════════════════════════ */
+    function initPillNavIndicator() {
+      const pillNav = document.querySelector(".pill-nav");
+      const pillIndicator = document.querySelector(".pill-indicator");
+      const activeLink = document.querySelector(".pill-nav a.is-active");
+
+      function movePillIndicator(link) {
+        if (!link || !pillNav || !pillIndicator) return;
+        const navRect = pillNav.getBoundingClientRect();
+        const linkRect = link.getBoundingClientRect();
+        pillNav.style.setProperty("--px", `${linkRect.left - navRect.left - 4}px`);
+        pillNav.style.setProperty("--pw", `${linkRect.width}px`);
+      }
+
+      if (activeLink) {
+        setTimeout(() => movePillIndicator(activeLink), 100);
+      }
+
+      window.addEventListener("resize", () => {
+        const active = document.querySelector(".pill-nav a.is-active");
+        if (active) movePillIndicator(active);
+      });
+    }
+
+    function initSharedPageTransitions() {
+      const transitionEl = document.querySelector(".transition");
+
+      // Page Entry Reveal
+      if (transitionEl) {
+        transitionEl.classList.add("loading");
+        setTimeout(() => {
+          transitionEl.classList.remove("loading");
+          transitionEl.classList.add("reveal");
+        }, 100);
+      }
+
+      /* ─── Nav Active Scroll State ─── */
+      const pillLinks = [...document.querySelectorAll(".pill-nav a")];
+      const sections = [
+        { id: "profile", el: document.querySelector(".stage") },
+        { id: "contact", el: document.querySelector("#contact") }
+      ].filter(sec => sec.el);
+
+      function updateActiveSection() {
+        const y = window.scrollY;
+        const threshold = window.innerHeight * 0.35;
+        let activeId = "profile";
+        sections.forEach(sec => {
+          if (!sec.el) return;
+          const top = sec.el.offsetTop - threshold;
+          if (y >= top) {
+            activeId = sec.id;
+          }
+        });
+        
+        pillLinks.forEach(link => {
+          if (link.dataset.nav === activeId) {
+            link.classList.add("is-active");
+            const pillNav = document.querySelector(".pill-nav");
+            const pillIndicator = document.querySelector(".pill-indicator");
+            if (pillNav && pillIndicator) {
+              const navRect = pillNav.getBoundingClientRect();
+              const linkRect = link.getBoundingClientRect();
+              pillNav.style.setProperty("--px", `${linkRect.left - navRect.left - 4}px`);
+              pillNav.style.setProperty("--pw", `${linkRect.width}px`);
+            }
+          } else {
+            link.classList.remove("is-active");
+          }
+        });
+      }
+      addEventListener("scroll", updateActiveSection, { passive: true });
+      updateActiveSection();
+
+      /* ─── Magnetic Buttons with Cursor-Follow Fill (LERP Engine) ─── */
+      const buttonSelector = ".magnetic, .footer-links a, .footer-bottom-links a, .pill-nav a";
+      
+      document.querySelectorAll(buttonSelector).forEach(btn => {
+        Array.from(btn.childNodes).forEach(node => {
+          if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== "") {
+            const span = document.createElement("span");
+            span.textContent = node.nodeValue;
+            btn.replaceChild(span, node);
+          }
+        });
+
+        let fill = btn.querySelector(".hover-fill");
+        if (!fill) {
+          fill = document.createElement("span");
+          fill.className = "hover-fill";
+          btn.appendChild(fill);
+        }
+
+        let state = {
+          isHovered: false,
+          targetX: 0,
+          targetY: 0,
+          currentX: 0,
+          currentY: 0,
+          targetFillX: 0,
+          targetFillY: 0,
+          currentFillX: 0,
+          currentFillY: 0
+        };
+
+        let rafId = null;
+
+        function update() {
+          const lerpFactor = 0.12;
+          state.currentX += (state.targetX - state.currentX) * lerpFactor;
+          state.currentY += (state.targetY - state.currentY) * lerpFactor;
+          
+          state.currentFillX += (state.targetFillX - state.currentFillX) * lerpFactor;
+          state.currentFillY += (state.targetFillY - state.currentFillY) * lerpFactor;
+
+          btn.style.transform = `translate3d(${state.currentX.toFixed(2)}px, ${state.currentY.toFixed(2)}px, 0)`;
+          fill.style.left = `${state.currentFillX.toFixed(2)}px`;
+          fill.style.top = `${state.currentFillY.toFixed(2)}px`;
+
+          const distBtn = Math.hypot(state.targetX - state.currentX, state.targetY - state.currentY);
+          const distFill = Math.hypot(state.targetFillX - state.currentFillX, state.targetFillY - state.currentFillY);
+
+          if (state.isHovered || distBtn > 0.05 || distFill > 0.05) {
+            rafId = requestAnimationFrame(update);
+          } else {
+            btn.style.transform = "";
+            rafId = null;
+          }
+        }
+
+        let rect = null;
+
+        btn.addEventListener("pointerenter", e => {
+          state.isHovered = true;
+          const prevTransform = btn.style.transform;
+          btn.style.transform = "none";
+          rect = btn.getBoundingClientRect();
+          btn.style.transform = prevTransform;
+          
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          state.currentFillX = state.targetFillX = x;
+          state.currentFillY = state.targetFillY = y;
+          
+          btn.style.setProperty('--x', `${x}px`);
+          btn.style.setProperty('--y', `${y}px`);
+
+          if (!rafId) rafId = requestAnimationFrame(update);
+        });
+
+        btn.addEventListener("pointermove", e => {
+          if (!rect) rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          state.targetFillX = x;
+          state.targetFillY = y;
+          
+          btn.style.setProperty('--x', `${x}px`);
+          btn.style.setProperty('--y', `${y}px`);
+
+          const isMagnetic = btn.classList.contains("magnetic") || btn.dataset.nav;
+          if (isMagnetic) {
+            const xc = x - rect.width / 2;
+            const yc = y - rect.height / 2;
+            state.targetX = xc * 0.35;
+            state.targetY = yc * 0.35;
+          }
+
+          if (!rafId) rafId = requestAnimationFrame(update);
+        });
+
+        btn.addEventListener("pointerleave", () => {
+          state.isHovered = false;
+          state.targetX = 0;
+          state.targetY = 0;
+          if (!rafId) rafId = requestAnimationFrame(update);
+        });
+      });
+
+      // Indicator logic
+      initPillNavIndicator();
+    }
+
+    window.addEventListener('load', () => {
+      setTimeout(initHeroBallsAnimation, 2000);
+      setupFullScroll();
+      initStrengthsInterestsInteractive();
+      initSharedPageTransitions();
+    });
+  </script>
+</body>
+</html>

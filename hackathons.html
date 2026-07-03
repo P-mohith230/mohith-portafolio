@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hackathons — Pagadala Mohith</title>
+  <meta name="description" content="Explore Hackathons andrapid prototyping builds by Pagadala Mohith.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="wipe-transitions.css" />
+  
+  <!-- GSAP Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"></script>
+  
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --bg-default: #000000;
+      --text-primary: #f4f0e8;
+      --text-secondary: rgba(244, 240, 232, 0.55);
+      --line: rgba(255, 255, 255, 0.12);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+      --ease: cubic-bezier(.19, 1, .22, 1);
+      --ease-out: cubic-bezier(.33, 1, .68, 1);
+      --transition-bg: #000000; /* Obsidian Black wipe reveal */
+    }
+    
+    html {
+      height: auto;
+      overflow-y: auto;
+    }
+    
+    body {
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      background: var(--bg-default);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      cursor: none;
+    }
+    
+    a, button {
+      cursor: none !important;
+    }
+    
+    /* ═══════════════════════════════════════════════════
+       CUSTOM CURSOR
+       ═══════════════════════════════════════════════════ */
+    #cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .9);
+      pointer-events: none;
+      z-index: 10000;
+      mix-blend-mode: difference;
+      will-change: transform;
+    }
+
+    #cursor.is-hover {
+      width: 56px;
+      height: 56px;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .25);
+    }
+    
+    /* ═══════════════════════════════════════════════════
+       COMING SOON SCREEN
+       ═══════════════════════════════════════════════════ */
+    .coming-soon-container {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 8vw;
+      background: #000000;
+      position: relative;
+      z-index: 10;
+    }
+    
+    .coming-soon-text {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5.5vw, 5.5rem);
+      font-weight: 400;
+      line-height: 1.15;
+      color: #f4f0e8;
+      margin-bottom: 5vh;
+      max-width: 22ch;
+      text-shadow: 0 0 35px rgba(255, 255, 255, 0.05);
+    }
+    
+    .cs-back {
+      font-family: var(--font-body);
+      font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+      color: #ffffff !important;
+      text-shadow: none;
+      text-decoration: none;
+      transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+      display: inline-flex;
+      align-items: center;
+    }
+    
+    .cs-back:hover {
+      transform: translateX(-5px);
+      opacity: 0.95;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Page Transition Overlay -->
+  <div class="transition" aria-hidden="true">
+    <i style="--d:0"></i><i style="--d:1"></i><i style="--d:2"></i><i style="--d:3"></i>
+  </div>
+
+  <!-- Floating Pill Nav -->
+  <div class="pill-nav">
+    <span class="pill-indicator" aria-hidden="true"></span>
+    <a href="home.html" data-nav="top">Home</a>
+    <a href="projects.html" data-nav="projects" class="is-active">Projects</a>
+    <a href="capabilities.html" data-nav="capabilities">Capabilities</a>
+    <a href="profile.html" data-nav="profile">Profile</a>
+    <a href="#contact" data-nav="contact">Contact</a>
+  </div>
+
+  <!-- CURSOR -->
+  <div id="cursor"></div>
+
+  <!-- Main Container -->
+  <div class="coming-soon-container">
+    <h1 class="coming-soon-text">Hackathon information is coming soon.</h1>
+    <a href="projects.html" class="cs-back">&larr; Back to Projects</a>
+  </div>
+
+  <!-- ─── Footer ─── -->
+  <footer id="contact">
+    <video autoplay muted loop playsinline>
+      <source src="https://cdn.sanity.io/files/nuxb3jim/production-july-2025/ab4a05d3b47c051abb3ace15ab7da4eb7edb2886.mp4" type="video/mp4" />
+    </video>
+    <div class="footer-inner reveal">
+      <div>
+        <span class="eyebrow">Contact</span>
+        <h2>Let's connect</h2>
+      </div>
+      <div>
+        <div class="footer-links">
+          <a href="mailto:pagadalamohith230@gmail.com" data-cursor="Mail">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            pagadalamohith230@gmail.com
+          </a>
+          <a href="tel:+919347902490" data-cursor="Call">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            +91 9347902490
+          </a>
+          <a href="https://github.com/P-mohith230" target="_blank" rel="noopener noreferrer" data-cursor="Open">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/mohithpagadala/" target="_blank" rel="noopener noreferrer" data-cursor="Open">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            LinkedIn
+          </a>
+          <a href="#" target="_blank" rel="noopener noreferrer" data-cursor="Open">
+            <span style="font-size: 13px; margin-right: 6px; display: inline-block; vertical-align: middle;">🤗</span>
+            Hugging Face
+          </a>
+        </div>
+        <a class="magnetic" href="mailto:pagadalamohith230@gmail.com" data-cursor="Mail">Let's talk</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Pagadala Mohith</span>
+      <div style="font-size: 11px; opacity: 0.4; letter-spacing: 0.02em;">Design references: Metalab, Mobbin (Contra, Spline)</div>
+      <div class="footer-bottom-links">
+        <a href="https://github.com/P-mohith230" target="_blank" rel="noopener noreferrer" data-cursor="Open">GitHub</a>
+        <a href="https://www.linkedin.com/in/mohithpagadala/" target="_blank" rel="noopener noreferrer" data-cursor="Open">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ═══════════════════════════════════════════════════════
+       CUSTOM CURSOR
+       ═══════════════════════════════════════════════════════ */
+    const cursor = document.getElementById('cursor');
+    const cursorX = gsap.quickTo(cursor, 'x', { duration: 0.12, ease: 'power2.out' });
+    const cursorY = gsap.quickTo(cursor, 'y', { duration: 0.12, ease: 'power2.out' });
+    
+    document.addEventListener('mousemove', e => {
+      cursorX(e.clientX - 5);
+      cursorY(e.clientY - 5);
+    });
+    
+    document.querySelectorAll('.pill-nav a, .cs-back').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('is-hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('is-hover'));
+    });
+
+    /* ═══════════════════════════════════════════════════════
+       SHARED TRANSITIONS & PILL NAV INITIALIZATION
+       ═══════════════════════════════════════════════════════ */
+    function initPillNavIndicator() {
+      const pillNav = document.querySelector(".pill-nav");
+      const pillIndicator = document.querySelector(".pill-indicator");
+      const activeLink = document.querySelector(".pill-nav a.is-active");
+
+      function movePillIndicator(link) {
+        if (!link || !pillNav || !pillIndicator) return;
+        const navRect = pillNav.getBoundingClientRect();
+        const linkRect = link.getBoundingClientRect();
+        pillNav.style.setProperty("--px", `${linkRect.left - navRect.left - 4}px`);
+        pillNav.style.setProperty("--pw", `${linkRect.width}px`);
+      }
+
+      if (activeLink) {
+        setTimeout(() => movePillIndicator(activeLink), 100);
+      }
+
+      window.addEventListener("resize", () => {
+        const active = document.querySelector(".pill-nav a.is-active");
+        if (active) movePillIndicator(active);
+      });
+    }
+
+    function initSharedPageTransitions() {
+      const transitionEl = document.querySelector(".transition");
+
+      // Page Entry Reveal
+      if (transitionEl) {
+        transitionEl.classList.add("loading");
+        setTimeout(() => {
+          transitionEl.classList.remove("loading");
+          transitionEl.classList.add("reveal");
+        }, 100);
+      }
+
+      /* ─── Nav Active Scroll State ─── */
+      const pillLinks = [...document.querySelectorAll(".pill-nav a")];
+      const sections = [
+        { id: "projects", el: document.querySelector(".coming-soon-container") },
+        { id: "contact", el: document.querySelector("#contact") }
+      ].filter(sec => sec.el);
+
+      function updateActiveSection() {
+        const y = window.scrollY;
+        const threshold = window.innerHeight * 0.35;
+        let activeId = "projects";
+        sections.forEach(sec => {
+          if (!sec.el) return;
+          const top = sec.el.offsetTop - threshold;
+          if (y >= top) {
+            activeId = sec.id;
+          }
+        });
+        
+        pillLinks.forEach(link => {
+          if (link.dataset.nav === activeId) {
+            link.classList.add("is-active");
+            const pillNav = document.querySelector(".pill-nav");
+            const pillIndicator = document.querySelector(".pill-indicator");
+            if (pillNav && pillIndicator) {
+              const navRect = pillNav.getBoundingClientRect();
+              const linkRect = link.getBoundingClientRect();
+              pillNav.style.setProperty("--px", `${linkRect.left - navRect.left - 4}px`);
+              pillNav.style.setProperty("--pw", `${linkRect.width}px`);
+            }
+          } else {
+            link.classList.remove("is-active");
+          }
+        });
+      }
+      addEventListener("scroll", updateActiveSection, { passive: true });
+      updateActiveSection();
+
+      /* ─── Magnetic Buttons with Cursor-Follow Fill (LERP Engine) ─── */
+      const buttonSelector = ".magnetic, .footer-links a, .footer-bottom-links a, .pill-nav a";
+      
+      document.querySelectorAll(buttonSelector).forEach(btn => {
+        Array.from(btn.childNodes).forEach(node => {
+          if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== "") {
+            const span = document.createElement("span");
+            span.textContent = node.nodeValue;
+            btn.replaceChild(span, node);
+          }
+        });
+
+        let fill = btn.querySelector(".hover-fill");
+        if (!fill) {
+          fill = document.createElement("span");
+          fill.className = "hover-fill";
+          btn.appendChild(fill);
+        }
+
+        let state = {
+          isHovered: false,
+          targetX: 0,
+          targetY: 0,
+          currentX: 0,
+          currentY: 0,
+          targetFillX: 0,
+          targetFillY: 0,
+          currentFillX: 0,
+          currentFillY: 0
+        };
+
+        let rafId = null;
+
+        function update() {
+          const lerpFactor = 0.12;
+          state.currentX += (state.targetX - state.currentX) * lerpFactor;
+          state.currentY += (state.targetY - state.currentY) * lerpFactor;
+          
+          state.currentFillX += (state.targetFillX - state.currentFillX) * lerpFactor;
+          state.currentFillY += (state.targetFillY - state.currentFillY) * lerpFactor;
+
+          btn.style.transform = `translate3d(${state.currentX.toFixed(2)}px, ${state.currentY.toFixed(2)}px, 0)`;
+          fill.style.left = `${state.currentFillX.toFixed(2)}px`;
+          fill.style.top = `${state.currentFillY.toFixed(2)}px`;
+
+          const distBtn = Math.hypot(state.targetX - state.currentX, state.targetY - state.currentY);
+          const distFill = Math.hypot(state.targetFillX - state.currentFillX, state.targetFillY - state.currentFillY);
+
+          if (state.isHovered || distBtn > 0.05 || distFill > 0.05) {
+            rafId = requestAnimationFrame(update);
+          } else {
+            btn.style.transform = "";
+            rafId = null;
+          }
+        }
+
+        let rect = null;
+
+        btn.addEventListener("pointerenter", e => {
+          state.isHovered = true;
+          const prevTransform = btn.style.transform;
+          btn.style.transform = "none";
+          rect = btn.getBoundingClientRect();
+          btn.style.transform = prevTransform;
+          
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          state.currentFillX = state.targetFillX = x;
+          state.currentFillY = state.targetFillY = y;
+          
+          btn.style.setProperty('--x', `${x}px`);
+          btn.style.setProperty('--y', `${y}px`);
+
+          if (!rafId) rafId = requestAnimationFrame(update);
+        });
+
+        btn.addEventListener("pointermove", e => {
+          if (!rect) rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          state.targetFillX = x;
+          state.targetFillY = y;
+          
+          btn.style.setProperty('--x', `${x}px`);
+          btn.style.setProperty('--y', `${y}px`);
+
+          const isMagnetic = btn.classList.contains("magnetic") || btn.dataset.nav;
+          if (isMagnetic) {
+            const xc = x - rect.width / 2;
+            const yc = y - rect.height / 2;
+            state.targetX = xc * 0.35;
+            state.targetY = yc * 0.35;
+          }
+
+          if (!rafId) rafId = requestAnimationFrame(update);
+        });
+
+        btn.addEventListener("pointerleave", () => {
+          state.isHovered = false;
+          state.targetX = 0;
+          state.targetY = 0;
+          if (!rafId) rafId = requestAnimationFrame(update);
+        });
+      });
+
+      // Indicator logic
+      initPillNavIndicator();
+    }
+
+    window.addEventListener('load', initSharedPageTransitions);
+  </script>
+</body>
+</html>
