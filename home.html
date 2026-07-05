@@ -25,7 +25,7 @@
       --cyan: #68f0ff;
       --ease: cubic-bezier(.19, 1, .22, 1);
       --ease-out: cubic-bezier(.33, 1, .68, 1);
-      --transition-bg: #f4f0e8; /* White transition slides */
+      --transition-bg: #ffffff; /* White transition slides */
     }
 
     @property --glow-angle {
@@ -665,7 +665,7 @@
   <div class="grain"></div>
   <div class="cursor" aria-hidden="true"><span>View</span></div>
   <div class="transition" aria-hidden="true">
-    <i style="--d:0"></i><i style="--d:1"></i><i style="--d:2"></i><i style="--d:3"></i>
+    <i style="--d:0"></i><i style="--d:1"></i><i style="--d:2"></i><i style="--d:3"></i><i style="--d:4"></i>
   </div>
 
   <!-- ─── SVG Clip Path for Content Mask ─── -->
@@ -1092,15 +1092,12 @@
     /* ─── Page Transition System ─── */
     const transitionEl = document.querySelector(".transition");
 
-    // Skip initial reveal loading cover on home.html because of preloader
-    if (transitionEl && !window.location.pathname.endsWith("home.html") && !window.location.pathname.endsWith("/")) {
+    if (transitionEl) {
       transitionEl.classList.add("loading");
-      window.addEventListener("load", () => {
-        setTimeout(() => {
-          transitionEl.classList.remove("loading");
-          transitionEl.classList.add("reveal");
-        }, 100);
-      });
+      setTimeout(() => {
+        transitionEl.classList.remove("loading");
+        transitionEl.classList.add("reveal");
+      }, 100);
     }
 
     // Page Exit Transition on Link Clicks
@@ -1116,7 +1113,7 @@
           transitionEl.classList.add('exit');
           setTimeout(() => {
             window.location.href = targetUrl;
-          }, 1100); // Wait for the 1.04s transition sweep to complete
+          }, 1200); // Wait for the 1.12s transition sweep to complete
         } else {
           window.location.href = targetUrl;
         }

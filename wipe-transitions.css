@@ -1,6 +1,5 @@
-/* ─── Shared Transitions & Pill Nav Styles ─── */
-
 :root {
+  --transition-bg: #ffffff;
   --ease: cubic-bezier(.19, 1, .22, 1);
   --paper: #f4f0e8;
   --ink: #050505;
@@ -100,20 +99,23 @@
   }
 }
 
-/* ─── Page Transition Overlay ─── */
 .transition {
   position: fixed; inset: 0; z-index: 999999;
   pointer-events: none;
-  display: grid; grid-template-columns: repeat(4, 1fr);
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  height: 100vh;
+  width: 100vw;
 }
 
 .transition i {
-  background: var(--transition-bg, #f4f0e8);
-  transform: translate3d(0, -102%, 0);
+  background: var(--transition-bg, #ffffff);
+  transform: translate3d(0, -105%, 0);
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
   display: block;
-  width: calc(100% + 1px);
+  width: calc(100% + 2px);
+  height: 100%;
+  margin-right: -1px;
 }
 
 /* State: fully cover viewport (used during entry load or exit wipe) */
@@ -130,7 +132,7 @@
 
 /* State: animate reveal slide down */
 .transition.reveal i {
-  transform: translate3d(0, 102%, 0) !important;
+  transform: translate3d(0, 105%, 0) !important;
   transition-delay: calc(var(--d) * 80ms) !important;
 }
 

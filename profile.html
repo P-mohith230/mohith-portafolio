@@ -36,7 +36,7 @@
       --accent-violet: #7300ff;
       --font-display: 'Plus Jakarta Sans', sans-serif;
       --ease: cubic-bezier(.19, 1, .22, 1);
-      --transition-bg: #f4f0e8; /* White transition slides */
+      --transition-bg: #ffffff; /* White transition slides */
     }
 
     html,
@@ -680,7 +680,7 @@
 
   <!-- Page Transition Overlay -->
   <div class="transition" aria-hidden="true">
-    <i style="--d:0"></i><i style="--d:1"></i><i style="--d:2"></i><i style="--d:3"></i>
+    <i style="--d:0"></i><i style="--d:1"></i><i style="--d:2"></i><i style="--d:3"></i><i style="--d:4"></i>
   </div>
 
   <!-- Floating Pill Nav -->
@@ -1478,7 +1478,7 @@
             transitionEl.classList.add('exit');
             setTimeout(() => {
               window.location.href = targetUrl;
-            }, 1100); // Wait for the 1.04s transition sweep to complete
+            }, 1200); // Wait for the 1.12s transition sweep to complete
           } else {
             window.location.href = targetUrl;
           }
