@@ -2933,7 +2933,7 @@
         setTimeout(() => {
           transitionEl.classList.remove("loading");
           transitionEl.classList.add("reveal");
-        }, 100);
+        }, 500);
       }
 
       // Page Exit Transition on Link Clicks
@@ -2949,7 +2949,7 @@
             transitionEl.classList.add('exit');
             setTimeout(() => {
               window.location.href = targetUrl;
-            }, 1200); // Wait for the 1.12s transition sweep to complete
+            }, 700); // Wait for the accelerated 0.66s transition sweep to complete
           } else {
             window.location.href = targetUrl;
           }

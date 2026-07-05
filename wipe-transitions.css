@@ -138,7 +138,8 @@
 }
 .transition.exit i {
   transform: translate3d(0, 0, 0) scaleX(1.03) !important;
-  transition-delay: calc(var(--d) * 80ms) !important;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition-delay: calc(var(--d) * 40ms) !important;
 }
 
 /* State: animate reveal slide down */
