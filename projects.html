@@ -1482,40 +1482,7 @@
       font-variant-numeric: tabular-nums
     }
 
-    /* Explore Hackathons Button (Fixed Top-Left) */
-    .explore-hackathons-btn {
-      position: fixed;
-      top: 25px;
-      left: 5vw;
-      z-index: 100;
-      font-family: var(--font-display);
-      font-size: calc(clamp(2rem, 4.8vw, 4.5rem) * 0.5) !important;
-      color: var(--text-primary) !important;
-      -webkit-text-stroke: 1.5px #000000;
-      text-stroke: 1.5px #000000;
-      text-shadow: none;
-      text-decoration: none;
-      transition: transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out), color 0.35s var(--ease-out), text-shadow 0.35s var(--ease-out);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25em;
-    }
 
-    .explore-hackathons-btn:hover {
-      transform: scale(1.05);
-      opacity: 1;
-      color: #ffffff !important;
-      text-shadow: none;
-    }
-
-    .explore-hackathons-btn .arrow {
-      display: inline-block;
-      transition: transform 0.3s var(--ease-out);
-    }
-
-    .explore-hackathons-btn:hover .arrow {
-      transform: translate(4px, -4px);
-    }
   </style>
 </head>
 
@@ -1536,8 +1503,7 @@
     <a href="#contact" data-nav="contact">Contact</a>
   </div>
 
-  <!-- Explore Hackathons Button (Fixed Top-Right) -->
-  <a href="hackathons.html" class="explore-hackathons-btn">Explore Hackathons <span class="arrow">↗</span></a>
+
 
   <!-- CURSOR -->
   <div id="cursor"></div>
@@ -1887,7 +1853,7 @@
       cursorX(e.clientX - 5);
       cursorY(e.clientY - 5);
     });
-    document.querySelectorAll('.tab-link, .cs-back, .p4-btn, .explore-hackathons-btn').forEach(el => {
+    document.querySelectorAll('.tab-link, .cs-back, .p4-btn').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('is-hover'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('is-hover'));
     });
