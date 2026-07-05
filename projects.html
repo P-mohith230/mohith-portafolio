@@ -287,6 +287,9 @@
    MAIN HUB VIEW — TABS ON LEFT, CARD ON RIGHT
    ═══════════════════════════════════════════════════ */
     #hub {
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.65);
+      --line: rgba(255, 255, 255, 0.12);
       position: relative;
       min-height: 100vh;
       width: 100%;
@@ -1535,6 +1538,13 @@
     <div class="project-portal-view" id="portal-hackathons">
       <div class="portal-glow"></div>
     </div>
+  </div>
+
+  <!-- ═══ HUB VIDEO BACKGROUND ═══ -->
+  <div class="hub-video-bg" style="position: fixed; inset: 0; z-index: 0; overflow: hidden; background: #000;">
+    <video autoplay muted loop playsinline poster="https://cdn.sanity.io/images/nuxb3jim/production-july-2025/c6f17b9351d23c33aef9273c41643b72ec5c860e-1920x1080.jpg" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.55; filter: saturate(.85) contrast(1.1) brightness(.7);">
+      <source src="https://cdn.sanity.io/files/nuxb3jim/production-july-2025/6fbb33f6dd694cebe5cc6a5eea7f75df6b664539.mp4" type="video/mp4" />
+    </video>
   </div>
 
   <!-- ═══ MAIN HUB ═══ -->
@@ -2918,12 +2928,33 @@
 
       // Page Entry Reveal
       if (transitionEl) {
+        transitionEl.classList.remove("exit");
         transitionEl.classList.add("loading");
         setTimeout(() => {
           transitionEl.classList.remove("loading");
           transitionEl.classList.add("reveal");
         }, 100);
       }
+
+      // Page Exit Transition on Link Clicks
+      document.querySelectorAll('.pill-nav a, .cs-back, a.brand').forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href || href.startsWith('#') || link.getAttribute('target') === '_blank') return;
+
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const targetUrl = href;
+          if (transitionEl) {
+            transitionEl.classList.remove('reveal');
+            transitionEl.classList.add('exit');
+            setTimeout(() => {
+              window.location.href = targetUrl;
+            }, 1100); // Wait for the 1.04s transition sweep to complete
+          } else {
+            window.location.href = targetUrl;
+          }
+        });
+      });
 
       /* ─── Nav Active Scroll State ─── */
       const pillLinks = [...document.querySelectorAll(".pill-nav a")];

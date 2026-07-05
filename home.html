@@ -157,31 +157,7 @@
       width: 0; height: 0; z-index: -1;
     }
 
-    /* ─── Page Transition ─── */
-    .transition {
-      position: fixed; inset: 0; z-index: 995;
-      pointer-events: none;
-      display: grid; grid-template-columns: repeat(4, 1fr);
-    }
-    .transition i {
-      background: var(--paper);
-      transform: translateY(-105%);
-      border-radius: 0 0 40vw 40vw;
-    }
-    .transition.run i {
-      animation: wipe .95s var(--ease) forwards;
-      animation-delay: calc(var(--d) * 70ms);
-    }
-    @keyframes wipe {
-      45% {
-        transform: translateY(0);
-        border-radius: 0;
-      }
-      100% {
-        transform: translateY(105%);
-        border-radius: 52vw 52vw 0 0;
-      }
-    }
+
 
     /* ─── Navigation ─── */
     .nav {
@@ -1126,6 +1102,26 @@
         }, 100);
       });
     }
+
+    // Page Exit Transition on Link Clicks
+    document.querySelectorAll('.pill-nav a, .menu-pill, a.brand, .domain-pill').forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#') || link.getAttribute('target') === '_blank') return;
+
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const targetUrl = href;
+        if (transitionEl) {
+          transitionEl.classList.remove('reveal');
+          transitionEl.classList.add('exit');
+          setTimeout(() => {
+            window.location.href = targetUrl;
+          }, 1100); // Wait for the 1.04s transition sweep to complete
+        } else {
+          window.location.href = targetUrl;
+        }
+      });
+    });
 
     // Update pointer coordinates for radial hover effects on pill-nav links
     document.querySelectorAll('.pill-nav a').forEach(el => {

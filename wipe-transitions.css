@@ -110,31 +110,28 @@
 .transition i {
   background: var(--transition-bg, #f4f0e8);
   transform: translate3d(0, -102%, 0);
-  border-radius: 0 0 24px 24px;
-  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
   display: block;
+  width: calc(100% + 1px);
 }
 
 /* State: fully cover viewport (used during entry load or exit wipe) */
 .transition.loading i {
   transform: translate3d(0, 0, 0) !important;
-  border-radius: 0 !important;
   transition: none !important;
 }
 
 /* State: animate exit cover */
 .transition.exit i {
   transform: translate3d(0, 0, 0) !important;
-  border-radius: 0 !important;
-  transition-delay: calc(var(--d) * 40ms) !important;
+  transition-delay: calc(var(--d) * 80ms) !important;
 }
 
 /* State: animate reveal slide down */
 .transition.reveal i {
   transform: translate3d(0, 102%, 0) !important;
-  border-radius: 24px 24px 0 0 !important;
-  transition-delay: calc(var(--d) * 40ms) !important;
+  transition-delay: calc(var(--d) * 80ms) !important;
 }
 
 /* ─── Footer Section ─── */
