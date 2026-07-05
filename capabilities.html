@@ -988,25 +988,7 @@
         }, 500);
       }
 
-      // Page Exit Transition on Link Clicks
-      document.querySelectorAll('.pill-nav a, .back-btn, a.brand').forEach(link => {
-        const href = link.getAttribute('href');
-        if (!href || href.startsWith('#') || link.getAttribute('target') === '_blank') return;
-
-        link.addEventListener('click', e => {
-          e.preventDefault();
-          const targetUrl = href;
-          if (transitionEl) {
-            transitionEl.classList.remove('reveal');
-            transitionEl.classList.add('exit');
-            setTimeout(() => {
-              window.location.href = targetUrl;
-            }, 700); // Wait for the accelerated 0.66s transition sweep to complete
-          } else {
-            window.location.href = targetUrl;
-          }
-        });
-      });
+      // Instant navigation enabled (exit transition disabled)
 
       /* ─── Nav Active Scroll State ─── */
       const pillLinks = [...document.querySelectorAll(".pill-nav a")];

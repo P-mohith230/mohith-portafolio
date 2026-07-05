@@ -1092,33 +1092,9 @@
     /* ─── Page Transition System ─── */
     const transitionEl = document.querySelector(".transition");
 
-    if (transitionEl) {
-      transitionEl.classList.add("loading");
-      setTimeout(() => {
-        transitionEl.classList.remove("loading");
-        transitionEl.classList.add("reveal");
-      }, 500);
-    }
+    // Onload reveal disabled for home.html to let preloader run standalone
 
-    // Page Exit Transition on Link Clicks
-    document.querySelectorAll('.pill-nav a, .menu-pill, a.brand, .domain-pill').forEach(link => {
-      const href = link.getAttribute('href');
-      if (!href || href.startsWith('#') || link.getAttribute('target') === '_blank') return;
-
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const targetUrl = href;
-        if (transitionEl) {
-          transitionEl.classList.remove('reveal');
-          transitionEl.classList.add('exit');
-          setTimeout(() => {
-            window.location.href = targetUrl;
-          }, 700); // Wait for the accelerated 0.66s transition sweep to complete
-        } else {
-          window.location.href = targetUrl;
-        }
-      });
-    });
+    // Instant navigation enabled (exit transition disabled)
 
     // Update pointer coordinates for radial hover effects on pill-nav links
     document.querySelectorAll('.pill-nav a').forEach(el => {
