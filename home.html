@@ -10,6 +10,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="wipe-transitions.css" />
+  <!-- Prefetch subpages for instant navigation -->
+  <link rel="prefetch" href="projects.html" />
+  <link rel="prefetch" href="capabilities.html" />
+  <link rel="prefetch" href="profile.html" />
   <style>
     :root {
       --bg: #0b0b0b;
@@ -1094,7 +1098,25 @@
 
     // Onload reveal disabled for home.html to let preloader run standalone
 
-    // Instant navigation enabled (exit transition disabled)
+    // Page Exit Transition on Link Clicks
+    document.querySelectorAll('.pill-nav a, .menu-pill, a.brand, .domain-pill').forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#') || link.getAttribute('target') === '_blank') return;
+
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const targetUrl = href;
+        if (transitionEl) {
+          transitionEl.classList.remove('reveal');
+          transitionEl.classList.add('exit');
+          setTimeout(() => {
+            window.location.href = targetUrl;
+          }, 700); // Wait for the accelerated 0.66s transition sweep to complete
+        } else {
+          window.location.href = targetUrl;
+        }
+      });
+    });
 
     // Update pointer coordinates for radial hover effects on pill-nav links
     document.querySelectorAll('.pill-nav a').forEach(el => {

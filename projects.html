@@ -12,6 +12,10 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="wipe-transitions.css" />
+  <!-- Prefetch subpages for instant navigation -->
+  <link rel="prefetch" href="home.html" />
+  <link rel="prefetch" href="capabilities.html" />
+  <link rel="prefetch" href="profile.html" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/Flip.min.js"></script>
@@ -2936,7 +2940,25 @@
         }, 500);
       }
 
-      // Instant navigation enabled (exit transition disabled)
+      // Page Exit Transition on Link Clicks
+      document.querySelectorAll('.pill-nav a, .cs-back, a.brand').forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href || href.startsWith('#') || link.getAttribute('target') === '_blank') return;
+
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const targetUrl = href;
+          if (transitionEl) {
+            transitionEl.classList.remove('reveal');
+            transitionEl.classList.add('exit');
+            setTimeout(() => {
+              window.location.href = targetUrl;
+            }, 700); // Wait for the accelerated 0.66s transition sweep to complete
+          } else {
+            window.location.href = targetUrl;
+          }
+        });
+      });
 
       /* ─── Nav Active Scroll State ─── */
       const pillLinks = [...document.querySelectorAll(".pill-nav a")];
