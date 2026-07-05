@@ -2934,10 +2934,11 @@
       if (transitionEl) {
         transitionEl.classList.remove("exit");
         transitionEl.classList.add("loading");
-        setTimeout(() => {
+        transitionEl.offsetHeight; // Force browser layout reflow to register .loading state
+        requestAnimationFrame(() => {
           transitionEl.classList.remove("loading");
           transitionEl.classList.add("reveal");
-        }, 500);
+        });
       }
 
       // Page Exit Transition on Link Clicks
